@@ -1,26 +1,32 @@
 import React from 'react';
-import Head from 'next/head'
-import Layout, { siteTitle } from '../components/layout'
-import { getSortedPostsData } from '../lib/posts'
-import Basketball from '@/assets/images/basketball.svg'
+import { useDispatch, useSelector } from 'react-redux';
+import Layout from '@/components/layout';
+import { selectIsLogin } from '@/application/redux/selectors/auth';
+import { setLogin, setLogout } from '@/application/redux/actions/auth';
 
-export default function Home({ allPostsData }) {
-  console.log(allPostsData);
-  return (
-    <Layout home>
-      <Head>
-        <title>{siteTitle}</title>
-      </Head>
-      <Basketball />
-    </Layout>
-  )
-}
+function Home(){
+  const isLogin = useSelector(selectIsLogin);
+  const dispatch = useDispatch();
 
-export async function getStaticProps() {
-  const allPostsData = getSortedPostsData()
-  return {
-    props: {
-      allPostsData
+  function toggleLogin(){
+    if(isLogin){
+      dispatch(setLogout());
+    } else {
+      dispatch(setLogin());
     }
   }
+
+  return (
+    <Layout pageTitle="Homapage">
+      <h1>home</h1>
+      <h1>isLogin : {`${isLogin}`}</h1>
+
+      <button type="button" onClick={() => toggleLogin()}>Toggle Login</button>
+      <div>
+        {process.env.NEXT_PUBLIC_API_ENDPOINT}
+      </div>
+    </Layout>
+  );
 }
+
+export default Home;
