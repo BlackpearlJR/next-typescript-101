@@ -27,7 +27,9 @@
     "@typescript-eslint"
   ],
   "rules": {
-
+    "import/no-unresolved": "error",
+    "semi": "off",
+    "@typescript-eslint/semi": "error"
   },
   "settings": {
     "react": {
